@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
  */
 public class Cenario extends Base{
     private static Image img;
+    private static Image noCeuTemPao;
     private static boolean imagem = false;
      //<editor-fold defaultstate="collapsed" desc=" Constructors ">
     public Cenario(int x, int y, int w, int h, int sx) 
@@ -42,6 +43,7 @@ public class Cenario extends Base{
     @Override
     public void draw() 
     {
+        getCurrentGraphic().drawImage(noCeuTemPao, getX() - 200, 0, null);
         getCurrentGraphic().drawImage(img, getX(), getY() - getH(), null);
         
         getCurrentGraphic().setColor(Color.RED);
@@ -51,6 +53,7 @@ public class Cenario extends Base{
     private void loadImage() {
         try {
             img = ImageIO.read(new File("src//imagens//Cenario//Chao.png")).getScaledInstance(getW(), getH() * 2, Image.SCALE_DEFAULT);
+            noCeuTemPao = ImageIO.read(new File("src//imagens//Cenario//Ceu.png")).getScaledInstance(getW() + 200, getW()/8, Image.SCALE_DEFAULT);
         } catch (IOException ex) {
             Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
         }

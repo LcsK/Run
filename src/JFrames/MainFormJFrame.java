@@ -22,6 +22,7 @@ import java.awt.image.BufferStrategy;
 public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     
     private boolean space, r;
+    private boolean botoes[] = new boolean[6];
     
     /**
      * Creates new form MainFormJFrame
@@ -45,6 +46,16 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -68,19 +79,31 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_SPACE)
-            this.space = true;
-        if (evt.getKeyCode() == KeyEvent.VK_R)
-            this.r = true;
-    }//GEN-LAST:event_formKeyPressed
-
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_SPACE)
-            this.space = false;
+        this.space = false;
         if (evt.getKeyCode() == KeyEvent.VK_R)
-            this.r = false;
+        this.r = false;
     }//GEN-LAST:event_formKeyReleased
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE)
+        this.space = true;
+        if (evt.getKeyCode() == KeyEvent.VK_R)
+        this.r = true;
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+        if(evt.getXOnScreen()> 40 && evt.getXOnScreen() < 247 && evt.getYOnScreen() > 40 && evt.getYOnScreen() < 399)
+            botoes[0] = true;
+        else
+            botoes[0] = false;
+    }//GEN-LAST:event_formMouseMoved
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if(evt.getXOnScreen()> 40 && evt.getXOnScreen() < 247 && evt.getYOnScreen() > 40 && evt.getYOnScreen() < 399)
+            r = true;
+    }//GEN-LAST:event_formMouseClicked
 
     /**
      * @param args the command line arguments
@@ -122,14 +145,13 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
         BufferStrategy buffer = getBufferStrategy();
         Graphics bg;
         Game g = new Game(this);
-        
-        g.init();
 
         while (true) {
             bg = buffer.getDrawGraphics();
             bg.setFont(new Font("Dialog", Font.BOLD, 18));
-            g.upDate(bg);
+            g.upDate(bg, botoes);
             g.setPlayersActions(space,r);
+            r = false;
             bg.dispose();
             buffer.show();
             try {

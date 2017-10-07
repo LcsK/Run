@@ -14,8 +14,14 @@ import Models.Obstacle;
 import Models.Player;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import sun.font.AttributeValues;
 
 /**
@@ -32,6 +38,7 @@ public class Game {
     private Random r;
     private boolean jump, gameOver;
     private int prop;
+    private static ArrayList<Image> images;
     
     public Game(MainFormJFrame j)
     {
@@ -45,6 +52,19 @@ public class Game {
         speed = 3;
         prop = 10;
         loadImages();
+        setGameOver(true);
+        images = new ArrayList<Image>();
+        try {
+            images.add(ImageIO.read(new File("src//imagens//Menu//Logo.png")).getScaledInstance(252, 434, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//MenuMaior.png")).getScaledInstance(175, 237, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//MenuMenor.png")).getScaledInstance(152, 200, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//RankGrande.png")).getScaledInstance(145, 200, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//RankPequeno.png")).getScaledInstance(123, 168, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//StartGrande.png")).getScaledInstance(253, 439, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//StartPequeno.png")).getScaledInstance(207, 359, Image.SCALE_DEFAULT));
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void init()
@@ -55,10 +75,10 @@ public class Game {
         setPlayer(new Player(getWidth() / 20, chao.getY() - getWidth()/prop, getWidth()/(prop * 2), getWidth()/prop, -getWidth() / (prop*35), prop, chao.getY()));
         getEntities().add(getPlayer());
     }
-    public void upDate(Graphics g) {
+    public void upDate(Graphics g, boolean botoes[]) {
         Base.screenUpdate(g, getWidth(), getHeight());
         if (isGameOver()) {
-            gameOver();
+            gameOver(g, botoes);
         } else {
             entitiesGenerator();
             getPlayer().changeFrame(Player.getImages());
@@ -144,6 +164,7 @@ public class Game {
             setJump(true);
         }
         if (isGameOver() && restart) {
+            setWidth(2000);
             setGameOver(false);
             restart = false;
             init();
@@ -169,12 +190,18 @@ public class Game {
         getEntities().removeAll(getGarbage());
         getGarbage().clear();
     }
-    public void gameOver()
+    public void gameOver(Graphics g, boolean botoes[])
     {
-        Base.getCurrentGraphic().setColor(Color.WHITE);
-        Base.getCurrentGraphic().drawString("FIM DE JOGO", 50, 100);
-        Base.getCurrentGraphic().drawString(getScore() + " Pontos", 50, 130);
-        Base.getCurrentGraphic().drawString("R - Reiniciar", 50, 160);
+        setWidth(800);
+        if(!botoes[0])
+            g.drawImage(images.get(6), 40, 40, null); //Start Pequeno
+        else
+            g.drawImage(images.get(5), 15, 15, null); //Start Grande
+        //g.drawImage(images.get(0), 10, 10, null); //Logo
+        //g.drawImage(images.get(1), 3, 2, null); //Menu Maior
+        //g.drawImage(images.get(2), 3, 2, null); //Menu Menor
+        //g.drawImage(images.get(3), 3, 2, null); //Rank Grande
+        //g.drawImage(images.get(4), 3, 2, null); //Rank Pequeno
     }
     
     //<editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
