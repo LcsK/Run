@@ -5,7 +5,11 @@
  */
 package JFrames;
 
-import Controllers.Game;
+import Controllers.*;
+import Models.Aranha;
+import Models.Cenario;
+import Models.Lapide;
+import Models.Player;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -117,8 +121,8 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     public void run() {
         BufferStrategy buffer = getBufferStrategy();
         Graphics bg;
-
         Game g = new Game(this);
+        
         g.init();
 
         while (true) {

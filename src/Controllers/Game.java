@@ -42,8 +42,9 @@ public class Game {
         setGarbage(new ArrayList<Base>());
         setR(new Random());
         setLastObstacleTime(0);
-        speed = 2;
+        speed = 3;
         prop = 10;
+        loadImages();
     }
     
     public void init()
@@ -53,16 +54,14 @@ public class Game {
         getEntities().add(chao);
         setPlayer(new Player(getWidth() / 20, chao.getY() - getWidth()/prop, getWidth()/(prop * 2), getWidth()/prop, -getWidth() / (prop*35), prop, chao.getY()));
         getEntities().add(getPlayer());
-        getEntities().add(new Aranha(getWidth() + 20, 10, getHeight() / 5, getHeight() / 5, speed));
-        getEntities().add(new Lapide(getWidth() + 20, chao.getY() - getHeight() / 5, getHeight() / 10, getHeight() / 5, speed));
     }
     public void upDate(Graphics g) {
         Base.screenUpdate(g, getWidth(), getHeight());
         if (isGameOver()) {
             gameOver();
         } else {
-            //entitiesGenerator();
-            getPlayer().changeFrame();
+            entitiesGenerator();
+            getPlayer().changeFrame(Player.getImages());
             draw();
             drawScore();
 
@@ -73,10 +72,19 @@ public class Game {
             verifyGameOver();
         }
     }
-    public void changeFrames()
+    /*public void changeFrames()
     {
         for(Base b: getEntities())
             b.changeFrame();
+    }*/
+    private void loadImages()
+    {
+        Cenario c = new Cenario(0, getHeight() - getHeight() / 10, getWidth() * 2, getHeight() / 10, -speed);
+        Aranha a = new Aranha(getWidth() + 20, 10, getHeight() / 5, getHeight() / 8, speed);
+        Lapide l = new Lapide(getWidth() + 20, c.getY() - getHeight() / 10, getHeight() / 10, getHeight() / 10, speed);
+        l = null;
+        a = null;
+        c = null;
     }
     public void draw()
     {
@@ -103,7 +111,7 @@ public class Game {
         for(Base b: getEntities())
             if(getPlayer().hasCollision(b))
             {
-                if(b.getClass() == Obstacle.class)
+                if(b instanceof Obstacle)
                 {
                     getGarbage().add(player);
                     return;
@@ -113,24 +121,21 @@ public class Game {
     private void entitiesGenerator()
     {
         long currentTime = System.currentTimeMillis();
-        if(currentTime > getLastObstacleTime() + 3000)
+        if(currentTime > getLastObstacleTime() + 4000)
         {
             setLastObstacleTime(currentTime);
             setObstacleSide(getR().nextInt(3));
-            Obstacle o = null;
             switch(getObstacleSide())
             {
                 case 1:
-                    o = new Aranha(getWidth() + 20, chao.getY() - 50, 50, 50, speed);
+                    getEntities().add(new Aranha(getWidth() + 20, 10, getHeight() / 5, getHeight() / 8, speed));
                     break;
                 case 2:
-                    o = new Obstacle(getWidth() + 20, 40, 10, 50, speed);
+                    getEntities().add(new Lapide(getWidth() + 20, chao.getY() - getHeight() / 10, getHeight() / 10, getHeight() / 10, speed));
                     break;
                 default:
                     break;
             }
-            if(o != null)
-                getEntities().add(o);
         }
     }
     public void setPlayersActions(boolean space, boolean restart)

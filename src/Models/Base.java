@@ -22,7 +22,6 @@ public abstract class Base {
     protected Color color;
     protected static Graphics currentGraphic;
     protected Rectangle rectangle;
-    protected ArrayList<Image> images;
     //<editor-fold defaultstate="collapsed" desc=" Constructors ">
     public Base(int x, int y, int w, int h)
     {
@@ -34,27 +33,23 @@ public abstract class Base {
         setSy(1);
         setRectangle(new Rectangle(x, y, w, h));
         setColor(Color.BLACK);
-        setImages(new ArrayList<Image>());
     }
     public Base(int x, int y, int w, int h, int sx, int sy)
     {
         this(x,y,w,h);
         setSx(sx);
         setSy(sy);
-        setImages(new ArrayList<Image>());
     }
     public Base(int x, int y, int w, int h, Color color)
     {
         this(x,y,w,h);
         setColor(color);
-        setImages(new ArrayList<Image>());
     }
     public Base(int x, int y, int w, int h, int sx, int sy, Color color)
     {
         this(x,y,w,h,color);
         setSx(sx);
         setSy(sy);
-        setImages(new ArrayList<Image>());
     }
     //</editor-fold>
     
@@ -74,13 +69,13 @@ public abstract class Base {
         getCurrentGraphic().setColor(Color.GREEN);
         getCurrentGraphic().fillRect(0, 0, width, height);
     }
-    public void changeFrame()
+    public void changeFrame(ArrayList<Image> images)
     {
         long tempoAtual = System.currentTimeMillis();
         if (tempoAtual > getLastFrameTime() + 100) {
             setLastFrameTime(tempoAtual);
             setCurrentFrame(getCurrentFrame()+1);
-            if (getCurrentFrame() == getImages().size()) {
+            if (getCurrentFrame() == images.size()) {
                 setCurrentFrame(0);
             }
         }
@@ -174,14 +169,6 @@ public abstract class Base {
     private void setRectangle(Rectangle rectangle)
     {
         this.rectangle = rectangle;
-    }
-    public ArrayList<Image> getImages()
-    {
-        return this.images;
-    }
-    public void setImages(ArrayList<Image> images)
-    {
-        this.images = images;
     }
     //</editor-fold>
 }

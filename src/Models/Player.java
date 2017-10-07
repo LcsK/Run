@@ -19,7 +19,8 @@ import javax.imageio.ImageIO;
  * @author lucas
  */
 public class Player extends Base {
-    private ArrayList<Image> pulo;
+    private static ArrayList<Image> pulo;
+    private static ArrayList<Image> images;
     private int velPulo;
     private boolean pulando;
     private int jumpFrame;
@@ -27,6 +28,7 @@ public class Player extends Base {
     private int posImgX;
     private int alturaChao;
     private int prop;
+    private static boolean img = false;
     
     //<editor-fold defaultstate="collapsed" desc=" Constructors ">
     public Player(int x, int y, int w, int h, int velPulo, int prop, int alturaChao) 
@@ -35,8 +37,13 @@ public class Player extends Base {
         this.prop = prop;
         this.velPulo = velPulo;
         this.alturaChao = alturaChao;
-        pulo = new ArrayList<Image>();
-        loadImagem();
+        if(!img)
+        {
+            pulo = new ArrayList<Image>();
+            images = new ArrayList<Image>();
+            img = true;
+            loadImagem();
+        }
     }
     //</editor-fold>
     
@@ -65,7 +72,6 @@ public class Player extends Base {
                     jumpFrame = 0;
                 }
             }
-            
         }
         else
             getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), posImgX, getY(), null);
@@ -103,5 +109,12 @@ public class Player extends Base {
     public void setPulando(boolean pulando) {
         this.pulando = pulando;
     }
-    
+    public static ArrayList<Image> getImages()
+    {
+        return Player.images;
+    }
+    public static void setImages(ArrayList<Image> images)
+    {
+        Player.images = images;
+    }
 }

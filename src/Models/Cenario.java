@@ -19,12 +19,14 @@ import javax.imageio.ImageIO;
  * @author 1545 IRON V4
  */
 public class Cenario extends Base{
-    private Image img;
+    private static Image img;
+    private static boolean imagem = false;
      //<editor-fold defaultstate="collapsed" desc=" Constructors ">
     public Cenario(int x, int y, int w, int h, int sx) 
     {
         super(x,y,w,h,sx,0);
-        loadImage();
+        if(!imagem)
+            loadImage();
     }
     //</editor-fold>
 
