@@ -16,7 +16,8 @@ import java.util.ArrayList;
  * @author lucas
  */
 public abstract class Base {
-    protected int x, y, w, h, sx, sy, currentFrame;
+    protected int x, y, w, h, currentFrame;
+    double sx, sy;
     protected long lastFrameTime;
     protected Color color;
     protected static Graphics currentGraphic;
@@ -70,7 +71,7 @@ public abstract class Base {
     public static void screenUpdate(Graphics g, int width, int height)
     {
         setCurrentGraphic(g);
-        getCurrentGraphic().setColor(Color.BLACK);
+        getCurrentGraphic().setColor(Color.GREEN);
         getCurrentGraphic().fillRect(0, 0, width, height);
     }
     public void changeFrame()
@@ -126,19 +127,19 @@ public abstract class Base {
     {
         this.h = h;
     }
-    public int getSx()
+    public double getSx()
     {
         return this.sx;
     }
-    public void setSx(int sx)
+    public void setSx(double sx)
     {
         this.sx = sx;
     }
-    public int getSy()
+    public double getSy()
     {
         return this.sy;
     }
-    public void setSy(int sy)
+    public void setSy(double sy)
     {
         this.sy = sy;
     }

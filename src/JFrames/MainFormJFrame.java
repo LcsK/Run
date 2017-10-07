@@ -118,7 +118,7 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
         BufferStrategy buffer = getBufferStrategy();
         Graphics bg;
 
-        Game g = new Game(getWidth(), getHeight());
+        Game g = new Game(this);
         g.init();
 
         while (true) {

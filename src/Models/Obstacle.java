@@ -5,6 +5,8 @@
  */
 package Models;
 
+import java.awt.Color;
+
 /**
  *
  * @author lucas
@@ -21,9 +23,9 @@ public class Obstacle extends Base {
     public boolean move(int width, int height) {
         if(getX() + getW() + getSx() <= 0)
             return false;
-        setY(getY() + getSy());
+        setY((int)(getY() + getSy()));
         getRectangle().y = getY();
-        setX(getX() + getSx());
+        setX((int)(getX() + getSx()));
         getRectangle().x = getX();
         return true;
     }
@@ -31,7 +33,7 @@ public class Obstacle extends Base {
     @Override
     public void draw() 
     {
-        getCurrentGraphic().setColor(getColor());
+        getCurrentGraphic().setColor(Color.BLACK);
         getCurrentGraphic().fillRect(getX(), getY(), getW(), getH());
     }
 }

@@ -5,7 +5,11 @@
  */
 package Controllers;
 
+import JFrames.MainFormJFrame;
+import Models.Aranha;
 import Models.Base;
+import Models.Cenario;
+import Models.Lapide;
 import Models.Obstacle;
 import Models.Player;
 import java.awt.Color;
@@ -20,36 +24,44 @@ import sun.font.AttributeValues;
  */
 public class Game {
     private Player player;
-
-    
+    private Base chao;
+    private int speed;
     private int width, height, score, obstacleSide;
     private long lastObstacleTime;
     private ArrayList<Base> entities, garbage;
     private Random r;
     private boolean jump, gameOver;
+    private int prop;
     
-    public Game(int width, int height)
+    public Game(MainFormJFrame j)
     {
-        setWidth(width);
-        setHeight(height);
+        setWidth(2000);
+        setHeight(getWidth() / 4);
+        j.setSize(getWidth(), getHeight());
         setEntities(new ArrayList<Base>());
         setGarbage(new ArrayList<Base>());
         setR(new Random());
         setLastObstacleTime(0);
+        speed = 2;
+        prop = 10;
     }
     
     public void init()
     {
         setScore(0);
-        setPlayer(new Player(30, getWidth()/2, 60, 80));
+        chao = new Cenario(0, getHeight() - getHeight() / 10, getWidth() * 2, getHeight() / 10, -speed);
+        getEntities().add(chao);
+        setPlayer(new Player(getWidth() / 20, chao.getY() - getWidth()/prop, getWidth()/(prop * 2), getWidth()/prop, -getWidth() / (prop*35), prop, chao.getY()));
         getEntities().add(getPlayer());
+        getEntities().add(new Aranha(getWidth() + 20, 10, getHeight() / 5, getHeight() / 5, speed));
+        getEntities().add(new Lapide(getWidth() + 20, chao.getY() - getHeight() / 5, getHeight() / 10, getHeight() / 5, speed));
     }
     public void upDate(Graphics g) {
         Base.screenUpdate(g, getWidth(), getHeight());
         if (isGameOver()) {
             gameOver();
         } else {
-            entitiesGenerator();
+            //entitiesGenerator();
             getPlayer().changeFrame();
             draw();
             drawScore();
@@ -74,7 +86,7 @@ public class Game {
     public void move()
     {
         for(Base b: getEntities())
-            if(!b.move(getWidth(), getHeight()) && b.getClass() == Obstacle.class)
+            if(!b.move(getWidth(), getHeight()) && b instanceof Obstacle)
             {
                 getGarbage().add(b);
                 setScore(getScore() + 1);
@@ -101,7 +113,7 @@ public class Game {
     private void entitiesGenerator()
     {
         long currentTime = System.currentTimeMillis();
-        if(currentTime > getLastObstacleTime() + 2500)
+        if(currentTime > getLastObstacleTime() + 3000)
         {
             setLastObstacleTime(currentTime);
             setObstacleSide(getR().nextInt(3));
@@ -109,19 +121,22 @@ public class Game {
             switch(getObstacleSide())
             {
                 case 1:
-                    o = new Obstacle(getWidth() + 20, 30, 10, 40, 2);
+                    o = new Aranha(getWidth() + 20, chao.getY() - 50, 50, 50, speed);
                     break;
                 case 2:
-                    o = new Obstacle(getWidth() + 20, getHeight() - 40, 10, 40, 2);
+                    o = new Obstacle(getWidth() + 20, 40, 10, 50, speed);
+                    break;
+                default:
                     break;
             }
-            getEntities().add(o);
+            if(o != null)
+                getEntities().add(o);
         }
     }
     public void setPlayersActions(boolean space, boolean restart)
     {
-        if (space && getPlayer().getY() > getHeight() - getPlayer().getH() - 9 ) {
-            player.setSy(-2);
+        if (space && getPlayer().getSy() == 0) {
+            setJump(true);
         }
         if (isGameOver() && restart) {
             setGameOver(false);
@@ -131,13 +146,11 @@ public class Game {
     }
     public void jump()
     {
-        if (getPlayer().getY() < getHeight() / 3 && isJump())
+        if (getPlayer().getY() + getPlayer().getH() >= chao.getY() && isJump()) {
             setJump(false);
-        if (!isJump()) 
-        {
-            getPlayer().setSy(2);
-            setJump(true);
+            getPlayer().jump();
         }
+            
     }
     private void verifyGameOver()
     {
