@@ -103,15 +103,27 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_formKeyPressed
 
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
-        if(evt.getXOnScreen()> 40 && evt.getXOnScreen() < 247 && evt.getYOnScreen() > 40 && evt.getYOnScreen() < 399)
+        if(evt.getXOnScreen()> 420 && evt.getXOnScreen() < 565 && evt.getYOnScreen() > 50 && evt.getYOnScreen() < 301)
             botoes[0] = true;
         else
             botoes[0] = false;
+        if(evt.getXOnScreen()> 615 && evt.getXOnScreen() < 738 && evt.getYOnScreen() > 50 && evt.getYOnScreen() < 218)
+            botoes[1] = true;
+        else
+            botoes[1] = false;
+        if(evt.getXOnScreen()> 650 && evt.getXOnScreen() < 802 && evt.getYOnScreen() > 280 && evt.getYOnScreen() < 480)
+            botoes[3] = true;
+        else
+            botoes[3] = false;
     }//GEN-LAST:event_formMouseMoved
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        if(evt.getXOnScreen()> 40 && evt.getXOnScreen() < 247 && evt.getYOnScreen() > 40 && evt.getYOnScreen() < 399)
+        if(evt.getXOnScreen()> 380 && evt.getXOnScreen() < 525 && evt.getYOnScreen() > 50 && evt.getYOnScreen() < 301)
             r = true;
+        if(evt.getXOnScreen()> 615 && evt.getXOnScreen() < 738 && evt.getYOnScreen() > 50 && evt.getYOnScreen() < 218)
+            botoes[2] = true;
+        if(evt.getXOnScreen()> 650 && evt.getXOnScreen() < 802 && evt.getYOnScreen() > 280 && evt.getYOnScreen() < 480)
+            botoes[2] = false;
     }//GEN-LAST:event_formMouseClicked
 
     /**

@@ -55,13 +55,13 @@ public class Game {
         setGameOver(true);
         images = new ArrayList<Image>();
         try {
-            images.add(ImageIO.read(new File("src//imagens//Menu//Logo.png")).getScaledInstance(252, 434, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//Logo.png")).getScaledInstance(394, 326, Image.SCALE_DEFAULT));
             images.add(ImageIO.read(new File("src//imagens//Menu//MenuMaior.png")).getScaledInstance(175, 237, Image.SCALE_DEFAULT));
             images.add(ImageIO.read(new File("src//imagens//Menu//MenuMenor.png")).getScaledInstance(152, 200, Image.SCALE_DEFAULT));
             images.add(ImageIO.read(new File("src//imagens//Menu//RankGrande.png")).getScaledInstance(145, 200, Image.SCALE_DEFAULT));
             images.add(ImageIO.read(new File("src//imagens//Menu//RankPequeno.png")).getScaledInstance(123, 168, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//StartGrande.png")).getScaledInstance(126, 219, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//StartPequeno.png")).getScaledInstance(103, 179, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//StartGrande.png")).getScaledInstance(177, 307, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//StartPequeno.png")).getScaledInstance(145, 251, Image.SCALE_DEFAULT));
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -223,17 +223,26 @@ public class Game {
     public void gameOver(Graphics g, boolean botoes[])
     {
         j.setSize(800, 500);
-        if(!botoes[0])
-            g.drawImage(images.get(6), 40, 40, null); //Start Pequeno
+        if(!botoes[2])
+        {
+            if(!botoes[0])
+                g.drawImage(images.get(6), 420, 50, null); //Start Pequeno
+            else
+                g.drawImage(images.get(5), 410, 40, null); //Start Grande
+            if(!botoes[1])
+                g.drawImage(images.get(4), 615, 50, null); //Rank Pequeno
+            else
+                g.drawImage(images.get(3), 605, 40, null); //Rank Grande
+            g.drawImage(images.get(0), 15, 165, null); //Logo
+        }
         else
-            g.drawImage(images.get(5), 15, 15, null); //Start Grande
-        if(!botoes[1])
-            g.drawImage(images.get(4), 3, 2, null); //Rank Pequeno
-        else
-            g.drawImage(images.get(3), 3, 2, null); //Rank Grande
-        //g.drawImage(images.get(0), 10, 10, null); //Logo
-        //g.drawImage(images.get(1), 3, 2, null); //Menu Maior
-        //g.drawImage(images.get(2), 3, 2, null); //Menu Menor
+        {
+            if(!botoes[3])
+                g.drawImage(images.get(2), 650, 260, null); //Menu Menor
+            else
+                g.drawImage(images.get(1), 640, 250, null); //Menu Maior
+            
+        }
     }
     
     //<editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
