@@ -23,28 +23,19 @@ import javax.imageio.ImageIO;
 public class Lapide extends Obstacle{
     private int sair;
     private boolean broto;
-    private ArrayList<Image> images;
     private static ArrayList<Image> tchauImg;
-    private static ArrayList<Image> brotoImg;
     private static boolean img = false;
     
     //<editor-fold defaultstate="collapsed" desc=" Constructors ">
     public Lapide(int x, int y, int w, int h, double sx) 
     {
         super(x,y,w,h,-sx);
-        images = new ArrayList<Image>();
         if(!img)
         {
             tchauImg = new ArrayList<Image>();
-            brotoImg = new ArrayList<Image>();
             loadImagemTchau();
-            loadImagesBroto();
             img = true;
         }
-        loadImagem();
-        sair = new Random().nextInt(getX());
-        if(sair < getX() / 2)
-            sair = getX() / 2;
     }
     //</editor-fold>
 
@@ -52,15 +43,6 @@ public class Lapide extends Obstacle{
     public boolean move(int width, int height) {
         if(getX() + getW()<= 0)
             return false;
-        if(getX() < sair) {
-            loadImagesBroto();
-            sair = -100;
-            broto = true;
-        }
-        else if(broto && getCurrentFrame() == getImages().size() - 1) {
-            broto = false;
-            loadImagemTchau();
-        }
         setY((int)(getY() + getSy()));
         getRectangle().y = getY();
         setX((int)(getX() + getSx()));
@@ -68,59 +50,40 @@ public class Lapide extends Obstacle{
         return true;
     }
     
-    public void loadImagem() {
-        getImages().add(brotoImg.get(0));
-    }
     
     public void loadImagemTchau() {
         setCurrentFrame(0);
-        getImages().clear();
         try {
-            if(!img)
-            {
                 for(int i = 0; i < 10; i++) {
                     tchauImg.add(ImageIO.read(new File("src//imagens//Lapide//Tchau//"+i+".png")).getScaledInstance(getW() * 4, getH()*2, Image.SCALE_DEFAULT));
                 }
-            }
-            else
-                getImages().addAll(tchauImg);
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        
-        public void loadImagesBroto() {
-            setCurrentFrame(0);
-            getImages().clear();
-            try {
-                if(!img)
-                {
-                    for(int i = 0; i < 10; i++) {
-                        brotoImg.add(ImageIO.read(new File("src//imagens//Lapide//Brotando//"+i+".png")).getScaledInstance(getW() * 4, getH()*2, Image.SCALE_DEFAULT));
-                    }
-                }
-                else
-                    getImages().addAll(brotoImg);
-        } catch (IOException ex) {
-            Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }
+
     
 
     @Override
     public void draw() {
-        getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), getX() - getW() - getW() / 5, getY() - getH() / 2, null);
+        getCurrentGraphic().drawImage(tchauImg.get(getCurrentFrame()), getX() - getW() - getW() / 5, getY() - getH() / 2, null);
         getCurrentGraphic().setColor(RED);
         //getCurrentGraphic().drawRect(x, y, w, h);
-        changeFrame(getImages());
+        changeFrame(tchauImg);
     }
-    public ArrayList<Image> getImages()
+    
+    @Override
+    public void changeFrame(ArrayList<Image> images)
     {
-        return this.images;
+        long tempoAtual = System.currentTimeMillis();
+        if (tempoAtual > getLastFrameTime() + 200) {
+            setLastFrameTime(tempoAtual);
+            setCurrentFrame(getCurrentFrame()+1);
+            if (getCurrentFrame() == images.size()) {
+                setCurrentFrame(0);
+            }
+        }
     }
-    public void setImages(ArrayList<Image> images)
-    {
-        this.images = images;
-    }
+
     
 }

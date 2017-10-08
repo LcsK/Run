@@ -44,7 +44,7 @@ public class Cenario extends Base{
     @Override
     public void draw() 
     {
-        getCurrentGraphic().drawImage(noCeuTemPao, 0, 0, null);
+        getCurrentGraphic().drawImage(noCeuTemPao, getX(), 0, null);
         getCurrentGraphic().drawImage(eMorreu, getX(), getY() / 2, null);
         getCurrentGraphic().drawImage(mae, getX(), getY() - getH(), null);
         

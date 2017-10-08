@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
  * @author lucas
  */
 public class Player extends Base {
+
     private static ArrayList<Image> deslize;
     private static ArrayList<Image> pulo;
     private static ArrayList<Image> images;
@@ -33,10 +34,10 @@ public class Player extends Base {
     private static boolean img = false;
     int xb, yb, wb, hb;
     private double speed;
+
     //<editor-fold defaultstate="collapsed" desc=" Constructors ">
-    public Player(int x, int y, int w, int h, int velPulo, int prop, int alturaChao, double speed) 
-    {
-        super(x,y,w,h);
+    public Player(int x, int y, int w, int h, int velPulo, int prop, int alturaChao, double speed) {
+        super(x, y, w, h);
         xb = x;
         yb = y;
         wb = w;
@@ -45,8 +46,7 @@ public class Player extends Base {
         this.prop = prop;
         this.velPulo = velPulo;
         this.alturaChao = alturaChao;
-        if(!img)
-        {
+        if (!img) {
             pulo = new ArrayList<Image>();
             images = new ArrayList<Image>();
             deslize = new ArrayList<Image>();
@@ -55,53 +55,51 @@ public class Player extends Base {
         }
     }
     //</editor-fold>
-    
+
     public void loadImagem() {
         try {
-            for(int i = 0; i < 10; i++) {
-                getImages().add(ImageIO.read(new File("src//imagens//Player//Correndo//"+i+".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
-                pulo.add(ImageIO.read(new File("src//imagens//Player//Pulando//"+i+".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
-                deslize.add(ImageIO.read(new File("src//imagens//Player//Rolando//"+i+".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
+            for (int i = 0; i < 10; i++) {
+                getImages().add(ImageIO.read(new File("src//imagens//Player//Correndo//" + i + ".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
+                pulo.add(ImageIO.read(new File("src//imagens//Player//Pulando//" + i + ".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
+                deslize.add(ImageIO.read(new File("src//imagens//Player//Rolando//" + i + ".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
             }
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
         posImgX = getX() - getW() / 2;
     }
-    
+
     public void setSpeed(double speed) {
         this.speed = speed;
     }
-    
+
     @Override
-        public void changeFrame(ArrayList<Image> images)
-    {
+    public void changeFrame(ArrayList<Image> images) {
         long tempoAtual = System.currentTimeMillis();
         if (tempoAtual > getLastFrameTime() + (100 * 3 / speed)) {
             setLastFrameTime(tempoAtual);
-            setCurrentFrame(getCurrentFrame()+1);
+            setCurrentFrame(getCurrentFrame() + 1);
             if (getCurrentFrame() == images.size()) {
                 setCurrentFrame(0);
             }
         }
     }
-    
+
     @Override
     public void draw() {
-        
-        if(pulando) {
+
+        if (pulando) {
             getCurrentGraphic().drawImage(pulo.get(actionFrame), posImgX, getY(), null);
             long tempoAtual = System.currentTimeMillis();
-            if (tempoAtual > lastActionFrameTime + (-2000 * velPulo / 4)/ prop) {
+            if (tempoAtual > lastActionFrameTime + (-2000 * velPulo / 4) / (prop * speed / 3)) {
                 lastActionFrameTime = tempoAtual;
                 actionFrame++;
                 if (actionFrame == pulo.size()) {
                     actionFrame = 0;
                 }
             }
-        }
-        else if(deslizando) {
-            getCurrentGraphic().drawImage(deslize.get(actionFrame), posImgX , getY() - getW(), null);
+        } else if (deslizando) {
+            getCurrentGraphic().drawImage(deslize.get(actionFrame), posImgX, getY() - getW(), null);
             long tempoAtual = System.currentTimeMillis();
             if (tempoAtual > lastActionFrameTime + (200 * 3 / speed)) {
                 lastActionFrameTime = tempoAtual;
@@ -115,48 +113,50 @@ public class Player extends Base {
                     setH(hb);
                 }
             }
-        }
-        else
+        } else {
             getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), posImgX, getY(), null);
+        }
         getCurrentGraphic().setColor(RED);
-        //getCurrentGraphic().drawRect(x, y, w, h);
+        getCurrentGraphic().drawRect(x, y, (int) getRectangle().getWidth(), (int) getRectangle().getHeight());
     }
 
     @Override
     public boolean move(int width, int height) {
-        setY((int)(getY() + getSy()));
+        setY((int) (getY() + getSy()));
         getRectangle().y = getY();
-        
-        if(pulando) {
 
-            setSy(getSy() + 0.1);
+        if (pulando) {
+
+            setSy(getSy() + speed / 30);
         }
-        if(getY() + getH() >= alturaChao && getSy() > 0) {
+        if (getY() + getH() >= alturaChao && getSy() > 0) {
             pulando = false;
             setSy(0);
+            getRectangle().setSize(getW(), getH());
         }
-        
+
         return true;
     }
 
     public void jump() {
-        if(!deslizando && !pulando) {
-        actionFrame = 0;
-        pulando = true;
-        setSy(velPulo);
+        if (!deslizando && !pulando) {
+            actionFrame = 0;
+            pulando = true;
+            setSy(velPulo);
+            getRectangle().setSize(getW(), getH() - getH() / 4);
         }
     }
-    
+
     public void deslizar() {
-        if(!deslizando && !pulando) {
-        actionFrame = 0;
-        deslizando = true;
-        setY(alturaChao - getW());
-        getRectangle().setSize(getW(), getW());
-        setH(getW());
+        if (!deslizando && !pulando) {
+            actionFrame = 0;
+            deslizando = true;
+            setY(alturaChao - getW());
+            getRectangle().setSize(getW(), getW());
+            setH(getW());
         }
     }
-    
+
     public boolean isPulando() {
         return pulando;
     }
@@ -164,12 +164,12 @@ public class Player extends Base {
     public void setPulando(boolean pulando) {
         this.pulando = pulando;
     }
-    public static ArrayList<Image> getImages()
-    {
+
+    public static ArrayList<Image> getImages() {
         return Player.images;
     }
-    public static void setImages(ArrayList<Image> images)
-    {
+
+    public static void setImages(ArrayList<Image> images) {
         Player.images = images;
     }
 }

@@ -22,7 +22,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import sun.font.AttributeValues;
 
 /**
  *
@@ -61,8 +60,8 @@ public class Game {
             images.add(ImageIO.read(new File("src//imagens//Menu//MenuMenor.png")).getScaledInstance(152, 200, Image.SCALE_DEFAULT));
             images.add(ImageIO.read(new File("src//imagens//Menu//RankGrande.png")).getScaledInstance(145, 200, Image.SCALE_DEFAULT));
             images.add(ImageIO.read(new File("src//imagens//Menu//RankPequeno.png")).getScaledInstance(123, 168, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//StartGrande.png")).getScaledInstance(253, 439, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//StartPequeno.png")).getScaledInstance(207, 359, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//StartGrande.png")).getScaledInstance(126, 219, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(new File("src//imagens//Menu//StartPequeno.png")).getScaledInstance(103, 179, Image.SCALE_DEFAULT));
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -188,8 +187,7 @@ public class Game {
             }
         }
         if (isGameOver() && restart) {
-            
-        //setWidth(2000);
+            j.setSize(2000, 500);
             setGameOver(false);
             restart = false;
             init();
@@ -224,16 +222,18 @@ public class Game {
     }
     public void gameOver(Graphics g, boolean botoes[])
     {
-        //setWidth(800);
+        j.setSize(800, 500);
         if(!botoes[0])
             g.drawImage(images.get(6), 40, 40, null); //Start Pequeno
         else
             g.drawImage(images.get(5), 15, 15, null); //Start Grande
+        if(!botoes[1])
+            g.drawImage(images.get(4), 3, 2, null); //Rank Pequeno
+        else
+            g.drawImage(images.get(3), 3, 2, null); //Rank Grande
         //g.drawImage(images.get(0), 10, 10, null); //Logo
         //g.drawImage(images.get(1), 3, 2, null); //Menu Maior
         //g.drawImage(images.get(2), 3, 2, null); //Menu Menor
-        //g.drawImage(images.get(3), 3, 2, null); //Rank Grande
-        //g.drawImage(images.get(4), 3, 2, null); //Rank Pequeno
     }
     
     //<editor-fold defaultstate="collapsed" desc=" Getters and Setters ">
