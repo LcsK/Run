@@ -34,7 +34,7 @@ public abstract class Base {
         setRectangle(new Rectangle(x, y, w, h));
         setColor(Color.BLACK);
     }
-    public Base(int x, int y, int w, int h, int sx, int sy)
+    public Base(int x, int y, int w, int h, double sx, double sy)
     {
         this(x,y,w,h);
         setSx(sx);

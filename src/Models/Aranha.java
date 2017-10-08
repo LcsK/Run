@@ -25,10 +25,11 @@ public class Aranha extends Obstacle{
     private int abaixar;
     private static ArrayList<Image> images;
     private static boolean img = false;
+    private static double downSpeed;
     
     
     //<editor-fold defaultstate="collapsed" desc=" Constructors ">
-    public Aranha(int x, int y, int w, int h, int sx) 
+    public Aranha(int x, int y, int w, int h, double sx) 
     {
         super(x,y,w,h,-sx);
         if(!img)
@@ -37,6 +38,7 @@ public class Aranha extends Obstacle{
             img = true;
             loadImagem();
         }
+        downSpeed = sx;
         abaixar = new Random().nextInt(getX());
     }
     //</editor-fold>
@@ -70,17 +72,21 @@ public class Aranha extends Obstacle{
     public void draw() {
         getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), getX() - getW() / 2, getY() - 2 * getH() - getH() / 2, null);
         getCurrentGraphic().setColor(RED);
-        getCurrentGraphic().drawRect(x, y, w, h);
+        //getCurrentGraphic().drawRect(x, y, w, h);
         changeFrame(Aranha.getImages());
     }
     
     private void abaixar() {
         if(getY() <= 10) {
-            setSy(1);
+            setSy(downSpeed / 3);
         }
         if(getY() >= getH() * 3.5) {
-            setSy(-1);
+            setSy(-downSpeed / 3);
         }
+    }
+    
+    public static void setDownSpeed(double speed) {
+        downSpeed = speed;
     }
     
     public static ArrayList<Image> getImages()

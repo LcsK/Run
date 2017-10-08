@@ -21,7 +21,7 @@ import java.awt.image.BufferStrategy;
  */
 public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     
-    private boolean space, r;
+    private boolean space, action, r;
     private boolean botoes[] = new boolean[6];
     
     /**
@@ -30,6 +30,7 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     public MainFormJFrame() {
         initComponents();
         this.space = false;
+        this.action = false;
         this.r = false;
         createBufferStrategy(2);
         Thread t = new Thread(this);
@@ -82,6 +83,8 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_SPACE)
         this.space = false;
+        if (evt.getKeyCode() == KeyEvent.VK_C)
+        this.action = false;
         if (evt.getKeyCode() == KeyEvent.VK_R)
         this.r = false;
     }//GEN-LAST:event_formKeyReleased
@@ -89,6 +92,8 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_SPACE)
         this.space = true;
+        if (evt.getKeyCode() == KeyEvent.VK_C)
+        this.action = true;
         if (evt.getKeyCode() == KeyEvent.VK_R)
         this.r = true;
     }//GEN-LAST:event_formKeyPressed
@@ -144,13 +149,13 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     public void run() {
         BufferStrategy buffer = getBufferStrategy();
         Graphics bg;
-        Game g = new Game(this);
-
+        Game.j = this;
+        Game g = new Game();
         while (true) {
             bg = buffer.getDrawGraphics();
             bg.setFont(new Font("Dialog", Font.BOLD, 18));
             g.upDate(bg, botoes);
-            g.setPlayersActions(space,r);
+            g.setPlayersActions(space, action, r);
             r = false;
             bg.dispose();
             buffer.show();

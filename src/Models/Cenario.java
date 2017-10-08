@@ -19,13 +19,14 @@ import javax.imageio.ImageIO;
  * @author 1545 IRON V4
  */
 public class Cenario extends Base{
-    private static Image img;
+    private static Image mae;
     private static Image noCeuTemPao;
+    private static Image eMorreu;
     private static boolean imagem = false;
      //<editor-fold defaultstate="collapsed" desc=" Constructors ">
-    public Cenario(int x, int y, int w, int h, int sx) 
+    public Cenario(int x, int y, int w, int h, double sx) 
     {
-        super(x,y,w,h,sx,0);
+        super(x,y,w,h,-sx,0);
         if(!imagem)
             loadImage();
     }
@@ -43,8 +44,9 @@ public class Cenario extends Base{
     @Override
     public void draw() 
     {
-        getCurrentGraphic().drawImage(noCeuTemPao, getX() - 200, 0, null);
-        getCurrentGraphic().drawImage(img, getX(), getY() - getH(), null);
+        getCurrentGraphic().drawImage(noCeuTemPao, 0, 0, null);
+        getCurrentGraphic().drawImage(eMorreu, getX(), getY() / 2, null);
+        getCurrentGraphic().drawImage(mae, getX(), getY() - getH(), null);
         
         getCurrentGraphic().setColor(Color.RED);
         getCurrentGraphic().drawRect(getX(), getY(), getW(), getH());
@@ -52,8 +54,9 @@ public class Cenario extends Base{
     
     private void loadImage() {
         try {
-            img = ImageIO.read(new File("src//imagens//Cenario//Chao.png")).getScaledInstance(getW(), getH() * 2, Image.SCALE_DEFAULT);
-            noCeuTemPao = ImageIO.read(new File("src//imagens//Cenario//Ceu.png")).getScaledInstance(getW() + 200, getW()/8, Image.SCALE_DEFAULT);
+            mae = ImageIO.read(new File("src//imagens//Cenario//Chao.png")).getScaledInstance(getW(), getH() * 2, Image.SCALE_DEFAULT);
+            noCeuTemPao = ImageIO.read(new File("src//imagens//Cenario//Ceu.png")).getScaledInstance(getW(), getW()/8, Image.SCALE_DEFAULT);
+            eMorreu = ImageIO.read(new File("src//imagens//Cenario//SegundoChao.png")).getScaledInstance(getW(), getW() / 13, Image.SCALE_DEFAULT);
         } catch (IOException ex) {
             Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
         }

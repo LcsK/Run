@@ -19,21 +19,29 @@ import javax.imageio.ImageIO;
  * @author lucas
  */
 public class Player extends Base {
+    private static ArrayList<Image> deslize;
     private static ArrayList<Image> pulo;
     private static ArrayList<Image> images;
     private int velPulo;
     private boolean pulando;
-    private int jumpFrame;
-    private long lastJumpFrameTime;
-    private int posImgX;
+    private boolean deslizando;
+    private int actionFrame;
+    private long lastActionFrameTime;
+    private static int posImgX;
     private int alturaChao;
     private int prop;
     private static boolean img = false;
-    
+    int xb, yb, wb, hb;
+    private double speed;
     //<editor-fold defaultstate="collapsed" desc=" Constructors ">
-    public Player(int x, int y, int w, int h, int velPulo, int prop, int alturaChao) 
+    public Player(int x, int y, int w, int h, int velPulo, int prop, int alturaChao, double speed) 
     {
         super(x,y,w,h);
+        xb = x;
+        yb = y;
+        wb = w;
+        hb = h;
+        this.speed = speed;
         this.prop = prop;
         this.velPulo = velPulo;
         this.alturaChao = alturaChao;
@@ -41,6 +49,7 @@ public class Player extends Base {
         {
             pulo = new ArrayList<Image>();
             images = new ArrayList<Image>();
+            deslize = new ArrayList<Image>();
             img = true;
             loadImagem();
         }
@@ -50,8 +59,9 @@ public class Player extends Base {
     public void loadImagem() {
         try {
             for(int i = 0; i < 10; i++) {
-                getImages().add(ImageIO.read(new File("src//imagens//Player//Correndo1//"+i+".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
-                pulo.add(ImageIO.read(new File("src//imagens//Player//Pulando1//"+i+".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
+                getImages().add(ImageIO.read(new File("src//imagens//Player//Correndo//"+i+".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
+                pulo.add(ImageIO.read(new File("src//imagens//Player//Pulando//"+i+".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
+                deslize.add(ImageIO.read(new File("src//imagens//Player//Rolando//"+i+".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
             }
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,24 +69,57 @@ public class Player extends Base {
         posImgX = getX() - getW() / 2;
     }
     
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+    
+    @Override
+        public void changeFrame(ArrayList<Image> images)
+    {
+        long tempoAtual = System.currentTimeMillis();
+        if (tempoAtual > getLastFrameTime() + (100 * 3 / speed)) {
+            setLastFrameTime(tempoAtual);
+            setCurrentFrame(getCurrentFrame()+1);
+            if (getCurrentFrame() == images.size()) {
+                setCurrentFrame(0);
+            }
+        }
+    }
+    
     @Override
     public void draw() {
         
         if(pulando) {
-            getCurrentGraphic().drawImage(pulo.get(jumpFrame), posImgX, getY(), null);
+            getCurrentGraphic().drawImage(pulo.get(actionFrame), posImgX, getY(), null);
             long tempoAtual = System.currentTimeMillis();
-            if (tempoAtual > lastJumpFrameTime + (-2000 * velPulo / 4)/ prop) {
-                lastJumpFrameTime = tempoAtual;
-                jumpFrame++;
-                if (jumpFrame == pulo.size()) {
-                    jumpFrame = 0;
+            if (tempoAtual > lastActionFrameTime + (-2000 * velPulo / 4)/ prop) {
+                lastActionFrameTime = tempoAtual;
+                actionFrame++;
+                if (actionFrame == pulo.size()) {
+                    actionFrame = 0;
+                }
+            }
+        }
+        else if(deslizando) {
+            getCurrentGraphic().drawImage(deslize.get(actionFrame), posImgX , getY() - getW(), null);
+            long tempoAtual = System.currentTimeMillis();
+            if (tempoAtual > lastActionFrameTime + (200 * 3 / speed)) {
+                lastActionFrameTime = tempoAtual;
+                actionFrame++;
+                if (actionFrame == deslize.size()) {
+                    deslizando = false;
+                    setY(yb);
+                    setX(xb);
+                    getRectangle().setSize(wb, hb);
+                    setW(wb);
+                    setH(hb);
                 }
             }
         }
         else
             getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), posImgX, getY(), null);
         getCurrentGraphic().setColor(RED);
-        getCurrentGraphic().drawRect(x, y, w, h);
+        //getCurrentGraphic().drawRect(x, y, w, h);
     }
 
     @Override
@@ -97,9 +140,21 @@ public class Player extends Base {
     }
 
     public void jump() {
-        jumpFrame = 0;
+        if(!deslizando && !pulando) {
+        actionFrame = 0;
         pulando = true;
         setSy(velPulo);
+        }
+    }
+    
+    public void deslizar() {
+        if(!deslizando && !pulando) {
+        actionFrame = 0;
+        deslizando = true;
+        setY(alturaChao - getW());
+        getRectangle().setSize(getW(), getW());
+        setH(getW());
+        }
     }
     
     public boolean isPulando() {

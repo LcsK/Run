@@ -29,7 +29,7 @@ public class Lapide extends Obstacle{
     private static boolean img = false;
     
     //<editor-fold defaultstate="collapsed" desc=" Constructors ">
-    public Lapide(int x, int y, int w, int h, int sx) 
+    public Lapide(int x, int y, int w, int h, double sx) 
     {
         super(x,y,w,h,-sx);
         images = new ArrayList<Image>();
@@ -111,7 +111,7 @@ public class Lapide extends Obstacle{
     public void draw() {
         getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), getX() - getW() - getW() / 5, getY() - getH() / 2, null);
         getCurrentGraphic().setColor(RED);
-        getCurrentGraphic().drawRect(x, y, w, h);
+        //getCurrentGraphic().drawRect(x, y, w, h);
         changeFrame(getImages());
     }
     public ArrayList<Image> getImages()

@@ -13,7 +13,7 @@ import java.awt.Color;
  */
 public class Obstacle extends Base {
     //<editor-fold defaultstate="collapsed" desc=" Constructors ">
-    public Obstacle(int x, int y, int w, int h, int sx) 
+    public Obstacle(int x, int y, int w, int h, double sx) 
     {
         super(x,y,w,h,sx,0);
     }
