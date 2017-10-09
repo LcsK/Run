@@ -16,7 +16,7 @@ public class Comparador implements Comparator {
     @Override
     public int compare(Object o1, Object o2) {
         if( ((Rank)o1).score > ((Rank)o2).score )
-            return 1;
+            return -1;
         else if( ((Rank)o1).score < ((Rank)o2).score )
             return 1;
         return 0;

@@ -85,18 +85,18 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_SPACE)
+        if (evt.getKeyCode() == KeyEvent.VK_UP)
         this.space = false;
-        if (evt.getKeyCode() == KeyEvent.VK_C)
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN)
         this.action = false;
         if (evt.getKeyCode() == KeyEvent.VK_R)
         this.r = false;
     }//GEN-LAST:event_formKeyReleased
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_SPACE)
+        if (evt.getKeyCode() == KeyEvent.VK_UP)
         this.space = true;
-        if (evt.getKeyCode() == KeyEvent.VK_C)
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN)
         this.action = true;
         if (evt.getKeyCode() == KeyEvent.VK_R)
         this.r = true;

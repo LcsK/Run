@@ -103,6 +103,11 @@ public class Game {
         getEntities().add(chao);
         setPlayer(new Player(getWidth() / 15, chao.getY() - getWidth()/prop, getWidth()/(prop * 2), getWidth()/prop, -getWidth() / (prop*35), prop, chao.getY(), speed));
         getEntities().add(getPlayer());
+        j.setFocusable(true);
+        j.setFocusTraversalKeysEnabled(true);
+        j.setFocusCycleRoot(true);
+        j.setFocusableWindowState(true);
+        j.setFocusTraversalPolicyProvider(true);
     }
     public void upDate(Graphics g, boolean botoes[]) {
         Base.screenUpdate(g, getWidth(), getHeight());
@@ -286,6 +291,8 @@ public class Game {
                 }
                 Game.rankBool = true;
                 j.botoes[4] = false;
+                input.setEnabled(false);
+                j.remove(input);
             }
             
             //Fim
@@ -293,6 +300,10 @@ public class Game {
         }
         else if(!botoes[2])
         {
+            Base.getCurrentGraphic().setColor(Color.WHITE);
+            Base.getCurrentGraphic().drawString("Ajude o esqueleto a salvar a Preguiça", 20, 80);
+            Base.getCurrentGraphic().drawString("Use a seta para cima para pular ", 20, 140);
+            Base.getCurrentGraphic().drawString("Use a seta para baixo para abaixar ", 20, 160);
             if(!botoes[0])
                 g.drawImage(images.get(6), 420, 50, null); //Start Pequeno
             else
