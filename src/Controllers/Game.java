@@ -19,14 +19,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 
 /**
@@ -84,11 +78,11 @@ public class Game {
     }
     public void init()
     {
-                    j.setFocusable(true);
-                    j.setFocusTraversalKeysEnabled(true);
-                    j.setFocusCycleRoot(true);
-                    j.setFocusableWindowState(true);
-                    j.setFocusTraversalPolicyProvider(true);
+        j.setFocusable(true);
+        j.setFocusTraversalKeysEnabled(true);
+        j.setFocusCycleRoot(true);
+        j.setFocusableWindowState(true);
+        j.setFocusTraversalPolicyProvider(true);
         pegouNick = false;
         input = new JTextField(20);
         input.setFont(new Font("Dialog", Font.ITALIC, 28));
@@ -109,7 +103,8 @@ public class Game {
             gameOver(g, botoes);
         } else {
             entitiesGenerator();
-            getPlayer().changeFrame(Player.getImages());
+            //getPlayer().changeFrame(Player.getImages());
+            getPlayer().changeFrame(getPlayer().getImages());
             draw();
             drawScore();
 

@@ -24,13 +24,13 @@ public class CarregaImagens {
     public ArrayList<Image> Carregar() {
         ArrayList<Image> images = new ArrayList<Image>();
         try {
-            images.add(ImageIO.read(getClass().getResource("/imagens/Menu/Logo.png")).getScaledInstance(394, 326, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(getClass().getResource("/imagens/Menu/MenuMaior.png")).getScaledInstance(175, 237, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(getClass().getResource("/imagens/Menu/MenuMenor.png")).getScaledInstance(152, 200, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(getClass().getResource("/imagens/Menu/RankGrande.png")).getScaledInstance(145, 200, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(getClass().getResource("/imagens/Menu/RankPequeno.png")).getScaledInstance(123, 168, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(getClass().getResource("/imagens/Menu/StartGrande.png")).getScaledInstance(177, 307, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(getClass().getResource("/imagens/Menu/StartPequeno.png")).getScaledInstance(145, 251, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(getClass().getResourceAsStream("/imagens/Menu/Logo.png")).getScaledInstance(394, 326, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(getClass().getResourceAsStream("/imagens/Menu/MenuMaior.png")).getScaledInstance(175, 237, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(getClass().getResourceAsStream("/imagens/Menu/MenuMenor.png")).getScaledInstance(152, 200, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(getClass().getResourceAsStream("/imagens/Menu/RankGrande.png")).getScaledInstance(145, 200, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(getClass().getResourceAsStream("/imagens/Menu/RankPequeno.png")).getScaledInstance(123, 168, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(getClass().getResourceAsStream("/imagens/Menu/StartGrande.png")).getScaledInstance(177, 307, Image.SCALE_DEFAULT));
+            images.add(ImageIO.read(getClass().getResourceAsStream("/imagens/Menu/StartPequeno.png")).getScaledInstance(145, 251, Image.SCALE_DEFAULT));
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -41,7 +41,7 @@ public class CarregaImagens {
         ArrayList<Image> logo = new ArrayList<Image>();
         try {
             for (int i = 0; i < 10; i++) {
-                logo.add(ImageIO.read(getClass().getResource("/imagens/Logo/" + i + ".png")).getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+                logo.add(ImageIO.read(getClass().getResourceAsStream("/imagens/Logo/" + i + ".png")).getScaledInstance(150, 150, Image.SCALE_DEFAULT));
             }
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,7 +51,7 @@ public class CarregaImagens {
 
     public Image ceu() {
         try {
-            return ImageIO.read(getClass().getResource("/imagens/Cenario/Ceu.png")).getScaledInstance(4000, 500, Image.SCALE_DEFAULT);
+            return ImageIO.read(getClass().getResourceAsStream("/imagens/Cenario/Ceu.png")).getScaledInstance(4000, 500, Image.SCALE_DEFAULT);
         } catch (IOException ex) {
             Logger.getLogger(CarregaImagens.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,7 +61,7 @@ public class CarregaImagens {
     public Image fundo() {
 
         try {
-            return ImageIO.read(getClass().getResource("/imagens/Cenario/SegundoChao.png")).getScaledInstance(4000, 250, Image.SCALE_DEFAULT);
+            return ImageIO.read(getClass().getResourceAsStream("/imagens/Cenario/SegundoChao.png")).getScaledInstance(4000, 250, Image.SCALE_DEFAULT);
         } catch (IOException ex) {
             Logger.getLogger(CarregaImagens.class.getName()).log(Level.SEVERE, null, ex);
         }

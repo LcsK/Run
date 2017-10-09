@@ -61,7 +61,7 @@ public class Aranha extends Obstacle{
         public void loadImagem() {
         try {
             for(int i = 0; i < 10; i++) {
-                getImages().add(ImageIO.read(getClass().getResource("/imagens/Aranha/Descendo/"+i+".png")).getScaledInstance(getW() * 2, getH()*6, Image.SCALE_DEFAULT));
+                getImages().add(ImageIO.read(getClass().getResourceAsStream("/imagens/Aranha/Descendo/"+i+".png")).getScaledInstance(getW() * 2, getH()*6, Image.SCALE_DEFAULT));
             }
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
