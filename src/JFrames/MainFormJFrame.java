@@ -186,7 +186,7 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
             if(currentTime > songTime + 113000)
             {
                 songTime = currentTime;
-                music();
+                //music();
             }
             bg = buffer.getDrawGraphics();
             bg.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -202,7 +202,7 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
             }
         }
     }
-    public static void music() {  
+    /*public static void music() {  
         AudioPlayer MGP = AudioPlayer.player;
         AudioStream BGM;
         AudioData MD;
@@ -211,7 +211,7 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
 
         try
         {
-            InputStream test = new FileInputStream(MainFormJFrame.path + "/src/Songs\\pixel-adenture.wav");
+            InputStream test = new FileInputStream(MainFormJFrame.path + "/src/Songs/pixel-adenture.wav");
             BGM = new AudioStream(test);
             AudioPlayer.player.start(BGM);
             MD = BGM.getData();
@@ -226,7 +226,7 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
             System.out.print(error.toString());
         }
         MGP.start(loop);
-    }
+    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
