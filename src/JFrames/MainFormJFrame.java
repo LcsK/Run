@@ -123,7 +123,11 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
         if(evt.getXOnScreen()> 615 && evt.getXOnScreen() < 738 && evt.getYOnScreen() > 50 && evt.getYOnScreen() < 218)
             botoes[2] = true;
         if(evt.getXOnScreen()> 650 && evt.getXOnScreen() < 802 && evt.getYOnScreen() > 280 && evt.getYOnScreen() < 480)
+        {
             botoes[2] = false;
+            if(!Game.rankBool)
+                Game.rankBool = true;
+        }
     }//GEN-LAST:event_formMouseClicked
 
     /**

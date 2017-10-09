@@ -60,7 +60,7 @@ public class Aranha extends Obstacle{
         public void loadImagem() {
         try {
             for(int i = 0; i < 10; i++) {
-                getImages().add(ImageIO.read(new File("src//imagens//Aranha//Descendo//"+i+".png")).getScaledInstance(getW() * 2, getH()*4, Image.SCALE_DEFAULT));
+                getImages().add(ImageIO.read(new File("src//imagens//Aranha//Descendo//"+i+".png")).getScaledInstance(getW() * 2, getH()*6, Image.SCALE_DEFAULT));
             }
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
@@ -70,9 +70,9 @@ public class Aranha extends Obstacle{
 
     @Override
     public void draw() {
-        getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), getX() - getW() / 2, getY() - 2 * getH() - getH() / 2, null);
+        getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), getX() - getW() / 2, getY() - 4 * getH() - getH() / 2, null);
         getCurrentGraphic().setColor(RED);
-        //getCurrentGraphic().drawRect(x, y, w, h);
+        getCurrentGraphic().drawRect(x, y, w, h);
         changeFrame(Aranha.getImages());
     }
     
@@ -80,7 +80,7 @@ public class Aranha extends Obstacle{
         if(getY() <= 10) {
             setSy(downSpeed / 3);
         }
-        if(getY() >= getH() * 3.5) {
+        if(getY() >= getH() * 4) {
             setSy(-downSpeed / 3);
         }
     }

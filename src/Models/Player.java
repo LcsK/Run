@@ -101,7 +101,7 @@ public class Player extends Base {
         } else if (deslizando) {
             getCurrentGraphic().drawImage(deslize.get(actionFrame), posImgX, getY() - getW(), null);
             long tempoAtual = System.currentTimeMillis();
-            if (tempoAtual > lastActionFrameTime + (200 * 3 / speed)) {
+            if (tempoAtual > lastActionFrameTime + (300 * 3 / speed)) {
                 lastActionFrameTime = tempoAtual;
                 actionFrame++;
                 if (actionFrame == deslize.size()) {
@@ -117,7 +117,7 @@ public class Player extends Base {
             getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), posImgX, getY(), null);
         }
         getCurrentGraphic().setColor(RED);
-        getCurrentGraphic().drawRect(x, y, (int) getRectangle().getWidth(), (int) getRectangle().getHeight());
+        //getCurrentGraphic().drawRect(x, y, (int) getRectangle().getWidth(), (int) getRectangle().getHeight());
     }
 
     @Override

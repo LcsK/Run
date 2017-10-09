@@ -49,7 +49,7 @@ public class Cenario extends Base{
         getCurrentGraphic().drawImage(mae, getX(), getY() - getH(), null);
         
         getCurrentGraphic().setColor(Color.RED);
-        getCurrentGraphic().drawRect(getX(), getY(), getW(), getH());
+        //getCurrentGraphic().drawRect(getX(), getY(), getW(), getH());
     }
     
     private void loadImage() {
