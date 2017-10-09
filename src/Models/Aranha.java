@@ -71,8 +71,6 @@ public class Aranha extends Obstacle{
     @Override
     public void draw() {
         getCurrentGraphic().drawImage(getImages().get(getCurrentFrame()), getX() - getW() / 2, getY() - 4 * getH() - getH() / 2, null);
-        getCurrentGraphic().setColor(RED);
-        getCurrentGraphic().drawRect(x, y, w, h);
         changeFrame(Aranha.getImages());
     }
     
