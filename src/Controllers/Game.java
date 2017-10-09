@@ -91,7 +91,7 @@ public class Game {
         j.add(input);
         j.setSize(getWidth(), getHeight());
         setScore(0);
-        speed = 4;
+        speed = 5;
         chao = new Cenario(0, getHeight() - getHeight() / 10, getWidth() * 2, getHeight() / 10, speed);
         getEntities().add(chao);
         setPlayer(new Player(getWidth() / 15, chao.getY() - getWidth()/prop, getWidth()/(prop * 2), getWidth()/prop, -getWidth() / (prop*35), prop, chao.getY(), speed));
@@ -166,16 +166,28 @@ public class Game {
     private void entitiesGenerator()
     {
         long currentTime = System.currentTimeMillis();
-        if(currentTime > getLastObstacleTime() + 4000)
+        if(currentTime > getLastObstacleTime() + 10000 / speed)
         {
             setLastObstacleTime(currentTime);
-            setObstacleSide(getR().nextInt(3));
+            setObstacleSide(getR().nextInt(7));
             switch(getObstacleSide())
             {
                 case 1:
                     getEntities().add(new Aranha(getWidth() + 20, 10, getHeight() / 5, getHeight() / 8, speed));
                     break;
                 case 2:
+                    getEntities().add(new Aranha(getWidth() + 20, 10, getHeight() / 5, getHeight() / 8, speed));
+                    break;
+                case 3:
+                    getEntities().add(new Aranha(getWidth() + 20, 10, getHeight() / 5, getHeight() / 8, speed));
+                    break;
+                case 4:
+                    getEntities().add(new Lapide(getWidth() + 20, chao.getY() - getHeight() / 10, getHeight() / 10, getHeight() / 10, speed));
+                    break;
+                case 5:
+                    getEntities().add(new Lapide(getWidth() + 20, chao.getY() - getHeight() / 10, getHeight() / 10, getHeight() / 10, speed));
+                    break;
+                case 6:
                     getEntities().add(new Lapide(getWidth() + 20, chao.getY() - getHeight() / 10, getHeight() / 10, getHeight() / 10, speed));
                     break;
                 default:
