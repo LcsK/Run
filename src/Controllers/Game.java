@@ -9,20 +9,24 @@ import JFrames.MainFormJFrame;
 import Models.Aranha;
 import Models.Base;
 import Models.Cenario;
+import Models.Comparador;
 import Models.Lapide;
 import Models.Obstacle;
 import Models.Player;
 import Models.Rank;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JTextField;
 
 /**
  *
@@ -38,12 +42,17 @@ public class Game {
     private Random r;
     private boolean jump, gameOver;
     private int prop;
-    private static ArrayList<Image> images;
+    private static ArrayList<Image> images, logo;
     public static MainFormJFrame j;
     private boolean desl;
     private Image ceu, fundo;
     public static boolean rankBool;
     public ArrayList<Rank> rank;
+     private JTextField input;
+     private String valor;
+    private long lastFrameTime;
+    private int currentFrame;
+    private boolean pegouNick;
     
     public Game()
     {
@@ -60,6 +69,7 @@ public class Game {
         loadImages();
         setGameOver(true);
         images = new ArrayList<Image>();
+        logo = new ArrayList<Image>();
         try {
             images.add(ImageIO.read(new File("src//imagens//Menu//Logo.png")).getScaledInstance(394, 326, Image.SCALE_DEFAULT));
             images.add(ImageIO.read(new File("src//imagens//Menu//MenuMaior.png")).getScaledInstance(175, 237, Image.SCALE_DEFAULT));
@@ -70,13 +80,22 @@ public class Game {
             images.add(ImageIO.read(new File("src//imagens//Menu//StartPequeno.png")).getScaledInstance(145, 251, Image.SCALE_DEFAULT));
             ceu = ImageIO.read(new File("src//imagens//Cenario//Ceu.png")).getScaledInstance(4000, 500, Image.SCALE_DEFAULT);
             fundo = ImageIO.read(new File("src//imagens//Cenario//SegundoChao.png")).getScaledInstance(4000, 250, Image.SCALE_DEFAULT);
+            for(int i = 0; i < 10; i++) 
+                logo.add(ImageIO.read(new File("src//imagens//Logo//"+ i + ".png")).getScaledInstance(150, 150, Image.SCALE_DEFAULT));
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     
     public void init()
     {
+        pegouNick = false;
+        input = new JTextField(20);
+        input.setFont(new Font("Dialog", Font.ITALIC, 28));
+        input.setBounds(100, 100, 600, 38); //x, y, largura, altura
+        input.setEnabled(false);
+        j.add(input);
         j.setSize(getWidth(), getHeight());
         setScore(0);
         speed = 4;
@@ -229,30 +248,48 @@ public class Game {
         getEntities().removeAll(getGarbage());
         getGarbage().clear();
     }
+    
+   
     public void gameOver(Graphics g, boolean botoes[])
     {
         j.setSize(800, 500);
         g.drawImage(ceu, 0, 0, null);
         g.drawImage(fundo, 0, 300, null);
+        g.drawImage(logo.get(currentFrame), 450, 320, null);
+        changeFrame(logo);
         if(!rankBool)
         {
+            input.setEnabled(true);
             Base.getCurrentGraphic().setColor(Color.WHITE);
             Base.getCurrentGraphic().drawString("Sua pontuação foi: " + getScore(), 80, 100);
             if(!botoes[3])
                 g.drawImage(images.get(2), 650, 260, null); //Menu Menor
             else
                 g.drawImage(images.get(1), 640, 250, null); //Menu Maior
-            /*
-            Colocar o input aqui:
-            string valor = valor do input
             
-            if(!valor.equals("null")) //o valor "null" é pra se na hora a pessoa não quiser colocar o rank, a gente digita null e ele nem adiciona
+            input.repaint();
+            
+            
+            //Inicio
+            if(botoes[4])
             {
-                rank.add(valor, score);
-                rank.sort() // rank.orderBy();
+                if(!pegouNick) {
+                    valor = input.getText();
+                    input.setText("");
+                    pegouNick = true;
+                }
+                if(!valor.equals("null")) //o valor "null" é pra se na hora a pessoa não quiser colocar o rank, a gente digita null e ele nem adiciona
+                {
+                    Comparador comparador = new Comparador();
+                    rank.add(new Rank(valor, score));
+                    rank.sort(comparador);
+                }
+                Game.rankBool = true;
+                j.botoes[4] = false;
             }
             
-            */
+            //Fim
+            
         }
         else if(!botoes[2])
         {
@@ -276,10 +313,22 @@ public class Game {
             Base.getCurrentGraphic().setColor(Color.WHITE);
             for(Rank r: this.rank)
             {
-                Base.getCurrentGraphic().drawString("1º - " + r.nome + " : " + r.score, 80, 100+i);
-                i+= 20;
-                if(i >= 200)
+                Base.getCurrentGraphic().drawString("" + (i+1) + "º - " + r.nome + " : " + r.score, 80, 100+i*20);
+                i+= 1;
+                if(i >= 10)
                     break;
+            }
+        }
+    }
+    
+    public void changeFrame(ArrayList<Image> images)
+    {
+        long tempoAtual = System.currentTimeMillis();
+        if (tempoAtual > lastFrameTime + 100) {
+            lastFrameTime = tempoAtual;
+            currentFrame++;
+            if (currentFrame == images.size()) {
+                currentFrame = 0;
             }
         }
     }

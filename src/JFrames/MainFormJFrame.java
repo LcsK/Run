@@ -26,7 +26,7 @@ import sun.audio.ContinuousAudioDataStream;
 public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     
     private boolean space, action, r;
-    private boolean botoes[] = new boolean[6];
+    public boolean botoes[] = new boolean[6];
     
     /**
      * Creates new form MainFormJFrame
@@ -126,7 +126,9 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
         {
             botoes[2] = false;
             if(!Game.rankBool)
-                Game.rankBool = true;
+            {
+                botoes[4] = true;
+            }
         }
     }//GEN-LAST:event_formMouseClicked
 
