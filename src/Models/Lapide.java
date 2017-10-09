@@ -5,6 +5,7 @@
  */
 package Models;
 
+import JFrames.MainFormJFrame;
 import static Models.Base.getCurrentGraphic;
 import static java.awt.Color.RED;
 import java.awt.Image;
@@ -55,7 +56,7 @@ public class Lapide extends Obstacle{
         setCurrentFrame(0);
         try {
                 for(int i = 0; i < 10; i++) {
-                    tchauImg.add(ImageIO.read(new File("src//imagens//Lapide//Tchau//"+i+".png")).getScaledInstance(getW() * 4, getH()*2, Image.SCALE_DEFAULT));
+                    tchauImg.add(ImageIO.read(getClass().getResource("/imagens//Lapide//Tchau//"+i+".png")).getScaledInstance(getW() * 4, getH()*2, Image.SCALE_DEFAULT));
                 }
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);

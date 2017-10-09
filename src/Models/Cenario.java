@@ -5,6 +5,7 @@
  */
 package Models;
 
+import JFrames.MainFormJFrame;
 import static Models.Base.getCurrentGraphic;
 import java.awt.Color;
 import java.awt.Image;
@@ -54,9 +55,9 @@ public class Cenario extends Base{
     
     private void loadImage() {
         try {
-            mae = ImageIO.read(new File("src//imagens//Cenario//Chao.png")).getScaledInstance(getW(), getH() * 2, Image.SCALE_DEFAULT);
-            noCeuTemPao = ImageIO.read(new File("src//imagens//Cenario//Ceu.png")).getScaledInstance(getW(), getW()/8, Image.SCALE_DEFAULT);
-            eMorreu = ImageIO.read(new File("src//imagens//Cenario//SegundoChao.png")).getScaledInstance(getW(), getW() / 13, Image.SCALE_DEFAULT);
+            mae = ImageIO.read(getClass().getResource("/imagens//Cenario//Chao.png")).getScaledInstance(getW(), getH() * 2, Image.SCALE_DEFAULT);
+            noCeuTemPao = ImageIO.read(getClass().getResource("/imagens//Cenario//Ceu.png")).getScaledInstance(getW(), getW()/8, Image.SCALE_DEFAULT);
+            eMorreu = ImageIO.read(getClass().getResource("/imagens//Cenario//SegundoChao.png")).getScaledInstance(getW(), getW() / 13, Image.SCALE_DEFAULT);
         } catch (IOException ex) {
             Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
         }

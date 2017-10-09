@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,11 +28,15 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     
     private boolean space, action, r;
     public boolean botoes[] = new boolean[6];
-    
+    public static String path;
     /**
      * Creates new form MainFormJFrame
      */
     public MainFormJFrame() {
+        File f = new File(System.getProperty("java.class.path"));
+        File dir = f.getAbsoluteFile().getParentFile().getParentFile();
+        path = dir.toString();
+        
         initComponents();
         this.space = false;
         this.action = false;
@@ -39,6 +44,7 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
         createBufferStrategy(2);
         Thread t = new Thread(this);
         t.start();
+        
     }
 
     /**
@@ -103,26 +109,26 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_formKeyPressed
 
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
-        if(evt.getXOnScreen()> 420 && evt.getXOnScreen() < 565 && evt.getYOnScreen() > 50 && evt.getYOnScreen() < 301)
+        if(evt.getX()> 420 && evt.getX() < 565 && evt.getY() > 50 && evt.getY() < 301 && Game.rankBool)
             botoes[0] = true;
         else
             botoes[0] = false;
-        if(evt.getXOnScreen()> 615 && evt.getXOnScreen() < 738 && evt.getYOnScreen() > 50 && evt.getYOnScreen() < 218)
+        if(evt.getX()> 615 && evt.getX() < 738 && evt.getY() > 50 && evt.getY() < 218 && Game.rankBool)
             botoes[1] = true;
         else
             botoes[1] = false;
-        if(evt.getXOnScreen()> 650 && evt.getXOnScreen() < 802 && evt.getYOnScreen() > 280 && evt.getYOnScreen() < 480)
+        if(evt.getX()> 650 && evt.getX() < 802 && evt.getY() > 280 && evt.getY() < 480)
             botoes[3] = true;
         else
             botoes[3] = false;
     }//GEN-LAST:event_formMouseMoved
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        if(evt.getXOnScreen()> 380 && evt.getXOnScreen() < 525 && evt.getYOnScreen() > 50 && evt.getYOnScreen() < 301)
+        if(evt.getX()> 380 && evt.getX() < 525 && evt.getY() > 50 && evt.getY() < 301 && Game.rankBool)
             r = true;
-        if(evt.getXOnScreen()> 615 && evt.getXOnScreen() < 738 && evt.getYOnScreen() > 50 && evt.getYOnScreen() < 218)
+        if(evt.getX()> 615 && evt.getX() < 738 && evt.getY() > 50 && evt.getY() < 218 && Game.rankBool)
             botoes[2] = true;
-        if(evt.getXOnScreen()> 650 && evt.getXOnScreen() < 802 && evt.getYOnScreen() > 280 && evt.getYOnScreen() < 480)
+        if(evt.getX()> 650 && evt.getX() < 802 && evt.getY() > 280 && evt.getY() < 480)
         {
             botoes[2] = false;
             if(!Game.rankBool)
@@ -174,6 +180,7 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
         Graphics bg;
         Game.j = this;
         Game g = new Game();
+        g.loadImages();
         while (true) {
             long currentTime = System.currentTimeMillis();
             if(currentTime > songTime + 113000)
@@ -204,7 +211,7 @@ public class MainFormJFrame extends javax.swing.JFrame implements Runnable {
 
         try
         {
-            InputStream test = new FileInputStream("src\\Songs\\pixel-adenture.wav");
+            InputStream test = new FileInputStream(MainFormJFrame.path + "/src/Songs\\pixel-adenture.wav");
             BGM = new AudioStream(test);
             AudioPlayer.player.start(BGM);
             MD = BGM.getData();

@@ -5,6 +5,7 @@
  */
 package Models;
 
+import JFrames.MainFormJFrame;
 import static java.awt.Color.RED;
 import java.awt.Image;
 import java.io.File;
@@ -59,9 +60,9 @@ public class Player extends Base {
     public void loadImagem() {
         try {
             for (int i = 0; i < 10; i++) {
-                getImages().add(ImageIO.read(new File("src//imagens//Player//Correndo//" + i + ".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
-                pulo.add(ImageIO.read(new File("src//imagens//Player//Pulando//" + i + ".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
-                deslize.add(ImageIO.read(new File("src//imagens//Player//Rolando//" + i + ".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
+                getImages().add(ImageIO.read(getClass().getResource("/imagens//Player//Correndo//" + i + ".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
+                pulo.add(ImageIO.read(getClass().getResource("/imagens//Player//Pulando//" + i + ".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
+                deslize.add(ImageIO.read(getClass().getResource("/imagens//Player//Rolando//" + i + ".png")).getScaledInstance(getW() * 2, getH(), Image.SCALE_DEFAULT));
             }
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);

@@ -8,6 +8,7 @@ package Controllers;
 import JFrames.MainFormJFrame;
 import Models.Aranha;
 import Models.Base;
+import Models.CarregaImagens;
 import Models.Cenario;
 import Models.Comparador;
 import Models.Lapide;
@@ -53,7 +54,7 @@ public class Game {
     private long lastFrameTime;
     private int currentFrame;
     private boolean pegouNick;
-    
+    private CarregaImagens ci;
     public Game()
     {
         rank = new ArrayList<Rank>();
@@ -66,30 +67,28 @@ public class Game {
         setLastObstacleTime(0);
         prop = 10;
         rankBool = true;
-        loadImages();
+        //loadImages();
         setGameOver(true);
         images = new ArrayList<Image>();
         logo = new ArrayList<Image>();
-        try {
-            images.add(ImageIO.read(new File("src//imagens//Menu//Logo.png")).getScaledInstance(394, 326, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//MenuMaior.png")).getScaledInstance(175, 237, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//MenuMenor.png")).getScaledInstance(152, 200, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//RankGrande.png")).getScaledInstance(145, 200, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//RankPequeno.png")).getScaledInstance(123, 168, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//StartGrande.png")).getScaledInstance(177, 307, Image.SCALE_DEFAULT));
-            images.add(ImageIO.read(new File("src//imagens//Menu//StartPequeno.png")).getScaledInstance(145, 251, Image.SCALE_DEFAULT));
-            ceu = ImageIO.read(new File("src//imagens//Cenario//Ceu.png")).getScaledInstance(4000, 500, Image.SCALE_DEFAULT);
-            fundo = ImageIO.read(new File("src//imagens//Cenario//SegundoChao.png")).getScaledInstance(4000, 250, Image.SCALE_DEFAULT);
-            for(int i = 0; i < 10; i++) 
-                logo.add(ImageIO.read(new File("src//imagens//Logo//"+ i + ".png")).getScaledInstance(150, 150, Image.SCALE_DEFAULT));
-        } catch (IOException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ci = new CarregaImagens();
         
     }
     
+    public void loadImages() {
+        
+        images = ci.Carregar();
+        logo = ci.Logo();
+        ceu = ci.ceu();
+        fundo = ci.fundo();
+    }
     public void init()
     {
+                    j.setFocusable(true);
+                    j.setFocusTraversalKeysEnabled(true);
+                    j.setFocusCycleRoot(true);
+                    j.setFocusableWindowState(true);
+                    j.setFocusTraversalPolicyProvider(true);
         pegouNick = false;
         input = new JTextField(20);
         input.setFont(new Font("Dialog", Font.ITALIC, 28));
@@ -103,11 +102,6 @@ public class Game {
         getEntities().add(chao);
         setPlayer(new Player(getWidth() / 15, chao.getY() - getWidth()/prop, getWidth()/(prop * 2), getWidth()/prop, -getWidth() / (prop*35), prop, chao.getY(), speed));
         getEntities().add(getPlayer());
-        j.setFocusable(true);
-        j.setFocusTraversalKeysEnabled(true);
-        j.setFocusCycleRoot(true);
-        j.setFocusableWindowState(true);
-        j.setFocusTraversalPolicyProvider(true);
     }
     public void upDate(Graphics g, boolean botoes[]) {
         Base.screenUpdate(g, getWidth(), getHeight());
@@ -139,22 +133,7 @@ public class Game {
             Aranha.setDownSpeed(speed);
             getPlayer().setSpeed(speed);
         }
-    }
-    
-    /*public void changeFrames()
-    {
-        for(Base b: getEntities())
-            b.changeFrame();
-    }*/
-    private void loadImages()
-    {
-        Cenario c = new Cenario(0, getHeight() - getHeight() / 10, getWidth() * 2, getHeight() / 10, speed);
-        Aranha a = new Aranha(getWidth() + 20, 10, getHeight() / 5, getHeight() / 8, speed);
-        Lapide l = new Lapide(getWidth() + 20, c.getY() - getHeight() / 10, getHeight() / 10, getHeight() / 10, speed);
-        l = null;
-        a = null;
-        c = null;
-    }
+    }   
     public void draw()
     {
         for(Base b: getEntities())
@@ -280,7 +259,9 @@ public class Game {
             {
                 if(!pegouNick) {
                     valor = input.getText();
-                    input.setText("");
+                    input.setEnabled(false);
+                    input.setFocusable(false);
+                    j.remove(input);
                     pegouNick = true;
                 }
                 if(!valor.equals("null")) //o valor "null" é pra se na hora a pessoa não quiser colocar o rank, a gente digita null e ele nem adiciona
@@ -291,8 +272,6 @@ public class Game {
                 }
                 Game.rankBool = true;
                 j.botoes[4] = false;
-                input.setEnabled(false);
-                j.remove(input);
             }
             
             //Fim
@@ -300,10 +279,6 @@ public class Game {
         }
         else if(!botoes[2])
         {
-            Base.getCurrentGraphic().setColor(Color.WHITE);
-            Base.getCurrentGraphic().drawString("Ajude o esqueleto a salvar a Preguiça", 20, 80);
-            Base.getCurrentGraphic().drawString("Use a seta para cima para pular ", 20, 140);
-            Base.getCurrentGraphic().drawString("Use a seta para baixo para abaixar ", 20, 160);
             if(!botoes[0])
                 g.drawImage(images.get(6), 420, 50, null); //Start Pequeno
             else
@@ -313,6 +288,10 @@ public class Game {
             else
                 g.drawImage(images.get(3), 605, 40, null); //Rank Grande
             g.drawImage(images.get(0), 15, 165, null); //Logo
+            Base.getCurrentGraphic().setColor(Color.WHITE);
+            Base.getCurrentGraphic().drawString("Ajude o esqueleto a salvar a Preguiça", 20, 60);
+            Base.getCurrentGraphic().drawString("Use a seta para cima para pular", 20, 120);
+            Base.getCurrentGraphic().drawString("Use a seta para baixo para abaixar", 20, 140);
         }
         else
         {
