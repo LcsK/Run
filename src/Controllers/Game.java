@@ -148,7 +148,7 @@ public class Game {
     public void drawScore()
     {
         Base.getCurrentGraphic().setColor(Color.WHITE);
-        Base.getCurrentGraphic().drawString("" + getScore(), 80, 50);
+        Base.getCurrentGraphic().drawString("" + getScore(), 80, 80);
     }
     
     public void playersCollision()
@@ -259,7 +259,7 @@ public class Game {
                     j.remove(input);
                     pegouNick = true;
                 }
-                if(!valor.equals("null")) //o valor "null" é pra se na hora a pessoa não quiser colocar o rank, a gente digita null e ele nem adiciona
+                if(!valor.equals("")) //o valor "null" é pra se na hora a pessoa não quiser colocar o rank, a gente digita null e ele nem adiciona
                 {
                     Comparador comparador = new Comparador();
                     rank.add(new Rank(valor, score));
